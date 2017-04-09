@@ -1,7 +1,12 @@
 <link rel="import" href="../polymer/polymer.html">
 <!--
 `download-json`
-some description
+An element that downloads a JSON file.
+
+Example:
+```
+<download-json></download-json>
+```
 
 @demo demo/index.html
 -->
@@ -13,7 +18,7 @@ some description
         display: block;
       }
     </style>
-    <a href="{{data}}" download="{{name}}"> <slot></slot></a>
+    <a href="{{data}}" download="{{name}}"><slot></slot></a>
   </template>
 
   <script>
@@ -21,17 +26,30 @@ some description
       static get is() { return 'download-json'; }
       static get properties() {
         return {
+        /**
+        * Represents a JSON object that will be added to the file for download
+        *
+        * @type {Object}
+        */
           json: {
             type: Object,
-            value: '{a: 123, b: "4 5 6"}',
+            value: {a: 123, b: "4 5 6"},
             observer: '_json'
           },
+        /**
+        * Represents the name of the file and the suffix 
+        *
+        * @type {String}
+        */
           name:{
             type: String,
             value: 'data.json'
           }
         };
       }
+      /**
+      * Encode and stringify the supplied json
+      */
       _json(){
         this.data = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.json));
       }
