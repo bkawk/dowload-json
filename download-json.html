@@ -1,0 +1,41 @@
+<link rel="import" href="../polymer/polymer.html">
+<!--
+`download-json`
+some description
+
+@demo demo/index.html
+-->
+
+<dom-module id="download-json">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <a href="{{data}}" download="{{name}}"> <slot></slot></a>
+  </template>
+
+  <script>
+    class MyElement extends Polymer.Element {
+      static get is() { return 'download-json'; }
+      static get properties() {
+        return {
+          json: {
+            type: Object,
+            value: '{a: 123, b: "4 5 6"}',
+            observer: '_json'
+          },
+          name:{
+            type: String,
+            value: 'data.json'
+          }
+        };
+      }
+      _json(){
+        this.data = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.json));
+      }
+
+    } window.customElements.define(MyElement.is, MyElement);
+  </script>
+</dom-module>
